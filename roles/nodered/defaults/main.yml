@@ -1,0 +1,18 @@
+---
+nodered_service_name: nodered
+nodered_service_version: "4.0.9"
+nodered_service_port: "443"
+nodered_service_data_dir: /var/lib/nodered
+nodered_service_config_dir: /etc/nodered
+nodered_service_user: nodered
+nodered_service_domain: nodered.local.iamrobertyoung.co.uk
+nodered_service_container_name: nodered
+
+nodered_backup_cron: "*-*-* 04:00:00"
+nodered_backup_image_name: backup-toolkit
+nodered_backup_image_tag: local
+nodered_backup_from: /data
+nodered_backup_mosquitto_host: mosquitto.local.iamrobertyoung.co.uk
+nodered_backup_mosquitto_username: "home-assistant"
+nodered_backup_mosquitto_password: "password"
+nodered_backup_bucket_name: "home-server-backup.iamrobertyoung.co.uk"
