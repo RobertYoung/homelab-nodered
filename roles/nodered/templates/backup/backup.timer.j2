@@ -1,0 +1,8 @@
+[Unit]
+Description=Run {{ nodered_service_name }} backup periodically
+
+[Timer]
+OnCalendar={{ nodered_backup_cron }}
+
+[Install]
+WantedBy=timers.target

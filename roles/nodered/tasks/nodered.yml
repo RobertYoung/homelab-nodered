@@ -1,0 +1,20 @@
+---
+- name: Create docker compose config
+  become: true
+  ansible.builtin.template:
+    src: "templates/docker-compose/docker-compose.yml.j2"
+    dest: "{{ nodered_service_config_dir }}/docker-compose.yml"
+    owner: "{{ nodered_service_user }}"
+    group: "{{ nodered_service_user }}"
+    mode: "0644"
+  notify: "Restart {{ nodered_service_name }}"
+
+- name: Create systemd service file
+  become: true
+  ansible.builtin.template:
+    src: "templates/{{ nodered_service_name }}/{{ nodered_service_name }}.service.j2"
+    dest: /etc/systemd/system/{{ nodered_service_name }}.service
+    owner: root
+    group: root
+    mode: "0644"
+  notify: "Restart {{ nodered_service_name }}"

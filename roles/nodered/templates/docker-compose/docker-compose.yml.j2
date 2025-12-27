@@ -1,0 +1,25 @@
+services:
+  nodered:
+    image: nodered/node-red:{{ nodered_service_version }}
+    container_name: nodered
+    volumes:
+      - nodered-data:/data
+      - /etc/letsencrypt:/etc/letsencrypt
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/London
+    ports:
+      - "{{ nodered_service_port }}:1880"
+
+  backup-toolkit:
+    container_name: backup-toolkit
+    image: backup-toolkit:local
+    command: sleep infinity
+    restart: unless-stopped
+    volumes:
+      - nodered-data:{{ nodered_backup_from }}
+    env_file:
+      - ./backup-toolkit.env
+
+volumes:
+  nodered-data:
