@@ -1,0 +1,5 @@
+---
+# Node-RED-specific configuration
+
+# Domain configuration (inherited from site.yml)
+domain: local.iamrobertyoung.co.uk
