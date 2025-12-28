@@ -26,6 +26,15 @@
     owner: "{{ nodered_service_user }}"
     group: "{{ nodered_service_user }}"
 
+- name: Create certs directory for {{ nodered_service_config_dir }}
+  become: true
+  ansible.builtin.file:
+    path: "{{ nodered_service_config_dir }}/certs"
+    state: directory
+    mode: "0755"
+    owner: "1000"
+    group: "1000"
+
 - name: Add users to docker group
   become: true
   ansible.builtin.user:

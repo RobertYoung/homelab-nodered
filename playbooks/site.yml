@@ -41,6 +41,12 @@
       tags: [step-ca-client]
       vars:
         step_ca_client_provisioner_password: "{{ lookup('aws_ssm', '/home-server/step-ca-ansible-password', region='eu-west-2') }}"
+        step_ca_client_post_renew_commands:
+          - "cp /etc/ssl/certs/{{ fqdn }}.crt {{ nodered_service_config_dir }}/certs/"
+          - "cp /etc/ssl/private/{{ fqdn }}.pem {{ nodered_service_config_dir }}/certs/"
+          - "chown 1000:1000 {{ nodered_service_config_dir }}/certs/{{ fqdn }}.crt"
+          - "chown 1000:1000 {{ nodered_service_config_dir }}/certs/{{ fqdn }}.pem"
+        step_ca_client_cert_not_after: "168h" # 7 days
 
     - role: syslog
       tags: [syslog]
@@ -50,18 +56,9 @@
     - role: wazuh-agent
       tags: [wazuh-agent]
 
-    - role: certbot
-      tags: [certbot]
-      vars:
-        certbot_domain: "{{ fqdn }}"
-        certbot_aws_access_key: "{{ lookup('aws_ssm', '/home-server/certbot-access-key', region='eu-west-2') }}"
-        certbot_aws_secret_access_key: "{{ lookup('aws_ssm', '/home-server/certbot-secret-access-key', region='eu-west-2') }}"
-        certbot_deploy_hook_script: "../roles/nodered/files/certbot/deploy-hook.sh"
-
     - role: nodered
       tags: [nodered]
       vars:
-        nodered_certbot_domain: "{{ fqdn }}"
         nodered_backup_aws_access_key: "{{ lookup('aws_ssm', '/home-server/access-key', region='eu-west-2') }}"
         nodered_backup_aws_secret_access_key: "{{ lookup('aws_ssm', '/home-server/secret-access-key', region='eu-west-2') }}"
         nodered_backup_aws_region: eu-west-2
