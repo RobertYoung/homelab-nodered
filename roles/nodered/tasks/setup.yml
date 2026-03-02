@@ -32,8 +32,28 @@
     path: "{{ nodered_service_config_dir }}/certs"
     state: directory
     mode: "0755"
-    owner: "1000"
-    group: "1000"
+    owner: root
+    group: root
+
+- name: Copy initial TLS certificate
+  become: true
+  ansible.builtin.copy:
+    src: /etc/ssl/certs/{{ nodered_service_domain }}.crt
+    dest: "{{ nodered_service_config_dir }}/certs/{{ nodered_service_domain }}.crt"
+    remote_src: true
+    owner: root
+    group: root
+    mode: "0644"
+
+- name: Copy initial TLS private key
+  become: true
+  ansible.builtin.copy:
+    src: /etc/ssl/private/{{ nodered_service_domain }}.pem
+    dest: "{{ nodered_service_config_dir }}/certs/{{ nodered_service_domain }}.pem"
+    remote_src: true
+    owner: root
+    group: root
+    mode: "0600"
 
 - name: Add users to docker group
   become: true

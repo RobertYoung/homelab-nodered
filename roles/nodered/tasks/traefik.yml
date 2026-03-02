@@ -1,0 +1,48 @@
+---
+- name: Create traefik config directory {{ nodered_traefik_config_dir }}
+  become: true
+  ansible.builtin.file:
+    path: "{{ nodered_traefik_config_dir }}"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Create traefik dynamic config directory {{ nodered_traefik_config_dir }}/dynamic
+  become: true
+  ansible.builtin.file:
+    path: "{{ nodered_traefik_config_dir }}/dynamic"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+
+- name: Template traefik static config
+  become: true
+  ansible.builtin.template:
+    src: traefik/traefik.yml.j2
+    dest: "{{ nodered_traefik_config_dir }}/traefik.yml"
+    mode: "0644"
+    owner: root
+    group: root
+  notify: Restart nodered
+
+- name: Template traefik dynamic tls config
+  become: true
+  ansible.builtin.template:
+    src: traefik/dynamic/tls.yml.j2
+    dest: "{{ nodered_traefik_config_dir }}/dynamic/tls.yml"
+    mode: "0644"
+    owner: root
+    group: root
+  notify: Restart nodered
+
+- name: Template traefik dynamic services config
+  become: true
+  ansible.builtin.template:
+    src: traefik/dynamic/services.yml.j2
+    dest: "{{ nodered_traefik_config_dir }}/dynamic/services.yml"
+    mode: "0644"
+    owner: root
+    group: root
+  notify: Restart nodered
