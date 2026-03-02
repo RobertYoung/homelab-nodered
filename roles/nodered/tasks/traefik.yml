@@ -8,7 +8,7 @@
     owner: root
     group: root
 
-- name: Create traefik dynamic config directory {{ nodered_traefik_config_dir }}/dynamic
+- name: Create traefik dynamic config directory
   become: true
   ansible.builtin.file:
     path: "{{ nodered_traefik_config_dir }}/dynamic"
