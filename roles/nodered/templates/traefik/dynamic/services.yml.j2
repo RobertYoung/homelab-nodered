@@ -1,0 +1,14 @@
+http:
+  routers:
+    nodered:
+      rule: "Host(`{{ nodered_service_domain }}`)"
+      entrypoints:
+        - websecure
+      service: nodered
+      tls: {}
+
+  services:
+    nodered:
+      loadBalancer:
+        servers:
+          - url: "http://nodered:1880"

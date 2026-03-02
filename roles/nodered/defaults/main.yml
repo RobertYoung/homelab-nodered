@@ -16,3 +16,5 @@ nodered_backup_mosquitto_host: mosquitto.local.iamrobertyoung.co.uk
 nodered_backup_mosquitto_username: "home-assistant"
 nodered_backup_mosquitto_password: "password"
 nodered_backup_bucket_name: "home-server-backup.iamrobertyoung.co.uk"
+
+nodered_traefik_config_dir: /etc/traefik

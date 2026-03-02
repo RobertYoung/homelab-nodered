@@ -42,10 +42,10 @@
       vars:
         step_ca_client_provisioner_password: "{{ lookup('aws_ssm', '/home-server/step-ca-ansible-password', region='eu-west-2') }}"
         step_ca_client_post_renew_commands:
+          - "mkdir -p {{ nodered_service_config_dir }}/certs"
           - "cp /etc/ssl/certs/{{ fqdn }}.crt {{ nodered_service_config_dir }}/certs/"
           - "cp /etc/ssl/private/{{ fqdn }}.pem {{ nodered_service_config_dir }}/certs/"
-          - "chown 1000:1000 {{ nodered_service_config_dir }}/certs/{{ fqdn }}.crt"
-          - "chown 1000:1000 {{ nodered_service_config_dir }}/certs/{{ fqdn }}.pem"
+          - "docker kill --signal=HUP traefik || echo 'Traefik not running, skipping HUP signal'"
         step_ca_client_cert_not_after: "168h" # 7 days
 
     - role: syslog
