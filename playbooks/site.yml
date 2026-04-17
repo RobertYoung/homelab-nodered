@@ -34,13 +34,13 @@
         telegraf_influxdb_url: "https://influxdb.{{ domain }}"
         telegraf_influxdb_port: 8086
         telegraf_influxdb_organisation: "0dd8df669872ba9e"
-        telegraf_influxdb_token: "{{ lookup('aws_ssm', '/home-server/influxdb-token', region='eu-west-2') }}"
+        telegraf_influxdb_token: "{{ lookup('aws_ssm', '/homelab/influxdb/token', region='eu-west-1') }}"
         telegraf_influxdb_bucket: "home-server"
 
     - role: step-ca-client
       tags: [step-ca-client]
       vars:
-        step_ca_client_provisioner_password: "{{ lookup('aws_ssm', '/home-server/step-ca-ansible-password', region='eu-west-2') }}"
+        step_ca_client_provisioner_password: "{{ lookup('aws_ssm', '/homelab/step-ca/ansible-password', region='eu-west-1') }}"
         step_ca_client_post_renew_commands:
           - "mkdir -p {{ nodered_service_config_dir }}/certs"
           - "cp /etc/ssl/certs/{{ fqdn }}.crt {{ nodered_service_config_dir }}/certs/"
@@ -59,7 +59,7 @@
     - role: nodered
       tags: [nodered]
       vars:
-        nodered_backup_aws_access_key: "{{ lookup('aws_ssm', '/home-server/access-key', region='eu-west-2') }}"
-        nodered_backup_aws_secret_access_key: "{{ lookup('aws_ssm', '/home-server/secret-access-key', region='eu-west-2') }}"
+        nodered_backup_aws_access_key: "{{ lookup('aws_ssm', '/homelab/aws/access-key', region='eu-west-1') }}"
+        nodered_backup_aws_secret_access_key: "{{ lookup('aws_ssm', '/homelab/aws/secret-access-key', region='eu-west-1') }}"
         nodered_backup_aws_region: eu-west-2
-        nodered_backup_mosquitto_password: "{{ lookup('aws_ssm', '/home-server/mosquitto-home-assistant-password', region='eu-west-2') }}"
+        nodered_backup_mosquitto_password: "{{ lookup('aws_ssm', '/homelab/mosquitto/home-assistant-password', region='eu-west-1') }}"
